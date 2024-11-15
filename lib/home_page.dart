@@ -29,6 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  /// This method is used to initialize the Agora engine
   Future<void> initAgora() async {
     await [Permission.microphone, Permission.camera].request();
 
@@ -72,12 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  /// This method is used to dispose the Agora engine
   Future<void> _dispose() async {
     await _engine?.leaveChannel();
     await _engine?.release();
   }
 
-  // Build video layout based on the number of users
+  // This method is used to build video layout based on the number of users
   Widget _renderVideoLayout() {
     if (_engine == null) {
       return const Center(child: CircularProgressIndicator());
@@ -85,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     List<Widget> videoViews = [];
 
-    // Add the local video view
+    // Add the local video view. i.e the main user(YOU)
     videoViews.add(
       AgoraVideoView(
         controller: VideoViewController(
@@ -95,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
 
-    // Add remote user video views
+    // Add remote user video views (Other users)
     for (var uid in users) {
       videoViews.add(
         AgoraVideoView(
